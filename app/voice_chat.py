@@ -63,7 +63,7 @@ def speak(text):
     print("[TTS] Windows speech playback completed.")
 
 
-def transcribe_offline(audio, model):
+def transcribe_offline(audio, model, language="auto"):
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as file:
         file.write(audio.get_wav_data())
         audio_path = file.name
@@ -71,7 +71,7 @@ def transcribe_offline(audio, model):
     try:
         segments, info = model.transcribe(
             audio_path,
-            language="en",
+            language=None if language.strip().lower() == "auto" else language.strip().lower(),
             beam_size=5,
             vad_filter=False,
             condition_on_previous_text=False,
@@ -145,7 +145,7 @@ def main():
                         source, timeout=10, phrase_time_limit=15
                     )
                     print("Recognizing speech...")
-                    message = transcribe_offline(audio, whisper_model)
+                    message = transcribe_offline(audio, whisper_model, settings.default_language)
 
                     if not message:
                         continue
