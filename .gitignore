@@ -21,3 +21,11 @@ logs/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# JARVIS-X local models and generated files
+models/
+data/
+screenshots/
+
+# Development backup files
+*.bak
